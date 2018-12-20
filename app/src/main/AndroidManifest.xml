@@ -24,10 +24,14 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="i6VD2fHKM3msMfZtIOXAhFSzDiYGFIwL" />
+            android:value="AguNQ63xaRy5Tw1eOIX6Ba6E2ldXufh5" />
 
         <activity android:name=".MainActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
         <service

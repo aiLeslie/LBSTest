@@ -41,12 +41,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 注册定位客户
         mLocationClient = new LocationClient(getApplicationContext());
+        // 注册位置监听器（设置回调）
         mLocationClient.registerLocationListener(new MyLocationListener());
+        // 初始化百度地图的sdk
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        // 绑定MapView
         mapView = (MapView) findViewById(R.id.bmapView);
+        // 获取地图
         baiduMap = mapView.getMap();
+        // 使能定位器
         baiduMap.setMyLocationEnabled(true);
+        // 绑定TextView
         positionText = (TextView) findViewById(R.id.position_text_view);
 
         /**
@@ -63,13 +69,19 @@ public class MainActivity extends AppCompatActivity {
             permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
         if (!permissionList.isEmpty()) {
+            // 如果权限列表不为空就申请权限
             String [] permissions = permissionList.toArray(new String[permissionList.size()]);
             ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
         } else {
+            // 请求获取位置消息
             requestLocation();
         }
     }
 
+    /**
+     * 根据 BDLocation对象 获取当前位置信息
+     * @param location
+     */
     private void navigateTo(BDLocation location) {
         if (isFirstLocate) {
             Toast.makeText(this, "nav to " + location.getAddrStr(), Toast.LENGTH_SHORT).show();
@@ -88,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         baiduMap.setMyLocationData(locationData);
     }
 
+    /**
+     * 请求获取位置消息
+     */
     private void requestLocation() {
         initLocation();
         mLocationClient.start();

@@ -32,7 +32,13 @@ public class FragmentMap extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        mLocationClient = new LocationClient(getContext().getApplicationContext());
+        mLocationClient.registerLocationListener(new MyLocationListener());
+        SDKInitializer.initialize(getActivity().getApplicationContext());
+
         View view = inflater.inflate(R.layout.fragment_map, container, true);
+        initView(view);
         return view;
     }
 
@@ -51,28 +57,12 @@ public class FragmentMap extends Fragment {
     }
 
 
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(getLayoutId(), container, false);
-//        mButterKnife = ButterKnife.bind(this, view);
-//        return view;
-//    }
+    protected void initView(View root) {
 
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView();
-    }
-
-    protected void initView() {
-        mLocationClient = new LocationClient(getContext().getApplicationContext());
-        mLocationClient.registerLocationListener(new MyLocationListener());
-        SDKInitializer.initialize(getActivity().getApplicationContext());
-        mapView = (MapView) getActivity().findViewById(R.id.bmapView);
+        mapView = root.findViewById(R.id.bmapView);
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
-        positionText = (TextView) getActivity().findViewById(R.id.position_text_view);
+        positionText = root.findViewById(R.id.position_text_view);
         List<String> permissionList = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
